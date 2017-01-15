@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+ <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       <!--Import jQuery before materialize.js-->
+	   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+	<script>
+	var list =["https://www.youtube.com/embed/tOUDx2ZfTGE","https://www.youtube.com/embed/HW4J8Lb2PCM","https://www.youtube.com/embed/ouR4nn1G9r4"]
+		function changeVedio(i){
+		document.getElementById("frame").src = list[i];
+		document.getElementById("A"+i).className = "collection-item active";
+	  }
+	var xmlhttp = new XMLHttpRequest();
+	var url = "https://emma.pixnet.cc/mainpage/blog/categories/hot/18?page=1&per_page=10&api_version=2&format=json";
+
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var myArr = JSON.parse(xmlhttp.responseText);
+			myFunction(myArr);
+		}
+	}
+	xmlhttp.open("GET", url, true);
+	xmlhttp.send();
+
+	function myFunction(arr) {
+		var data = arr.articles;
+		var out = "";
+		var i;
+		for (i = 0; i < data.length; i++) {
+			if ( data[i].thumb != "" ) out += '<img src="' + data[i].thumb + '" />';
+			if ( data[i].title != "" ) out += '<p><a href="' + data[i].link + '" target="_blank">' + data[i].title + '</a></p>';
+			out += '<p> </p>';
+			if ( data[i].tags.length != 0 )
+			   {
+				out += '<p>Tags: ';
+				for (j = 0; j < data[i].tags.length; j++) {
+					out += data[i].tags[j].tag + ', ';
+				}
+				out += '</p>';
+			   }
+			out += '<br /><br /><br />';
+		}
+		document.getElementById("pixnet-stuff").innerHTML = out;
+	}
+	</script>
+</head>
+<body>
+<div class="video-container">
+			<iframe id="frame" width="560" height="315" src="https://www.youtube.com/embed/tOUDx2ZfTGE" frameborder="0" allowfullscreen></iframe>
+		  
+      </div>
+		<div class="collection">
+			<a id="A0" href="javascript:changeVedio(0)" class="collection-item ">IU - 膝蓋/무릎/knee</a>
+			<a id="A1" href="javascript:changeVedio(1)" class="collection-item">IU - 曾經蔚藍 (푸르던)</a>
+			<a id="A2" href="javascript:changeVedio(2)" class="collection-item">HIGH4, IU(하이포, 아이유) _ Not Spring, Love, or Cherry Blossoms(봄,사랑,벚꽃 말고)</a>
+		</div>
+		</body>
+	<div id="pixnet-stuff">
